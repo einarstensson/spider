@@ -1,6 +1,7 @@
 <?php
   class Vertice {
       public $name = '';
+      public $visited = false;
       public $neighbors = array();
 
       public function __construct( $name ) {
