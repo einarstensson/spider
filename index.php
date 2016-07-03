@@ -4,11 +4,11 @@
 
   echo "<h1>Welcome to the Site Map Spider</h1>";
 
-  $root_url = "http://wiprodigital.com/";
+  $root_url = "http://wiprodigital.com";
   $stack = array();
   $history = array();
 
-  $scraper = new Scraper($root_url);
+  $scraper = new Scraper( $root_url );
 
   $current_vertice = new Vertice( "/" );
   $current_vertice->find_neighbors($scraper);
@@ -19,22 +19,10 @@
     $history[] = $current_vertice->name;
     echo "-----------------------------<br>";
     echo "<h2>" . $current_vertice->name . "</h2>";
-    echo "<h3>Neighbors:</h3>";
-
-    foreach($current_vertice->neighbors as $neighbor){
-      echo $neighbor->name;
-      echo "<br>";
-    }
 
     $stack = update_stack($current_vertice->neighbors, $stack, $history);
 
     array_shift($stack);
-
-    echo "STACK: ";
-    foreach($stack as $vertice){
-      echo $vertice->name . "; ";
-    }
-    echo "<br>";
 
     if(count($stack) == 0){
       $search = false;
@@ -71,9 +59,9 @@
     echo "<h3>New Neighbors:</h3>";
     foreach($new_neighbors as $neighbor){
       if(in_array($neighbor->name, $history) == false){
-        echo $neighbor->name;
-        echo "<br>";
         if(in_array($neighbor, $stack) == false){
+          echo $neighbor->name;
+          echo "<br>";
           $stack[] = $neighbor;
         }
       }

@@ -18,7 +18,7 @@
       private function populate_neighbors($fetched_links){
         foreach($fetched_links as $link){
           if($link && $link != $this->name){
-            $neighbor = new Vertice($link, $this->root_url);
+            $neighbor = new Vertice( $link );
             $this->neighbors[] = $neighbor;
           }
         }
