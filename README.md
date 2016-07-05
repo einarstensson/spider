@@ -5,7 +5,7 @@
 
 <h3>Advantages</h3>
 <p>+ Because PHP is so well suited for communicating across domains, it is realtively easy to use it to fetch HTML. In particular, I used the simple_html_dom.pg library and the file_get_html($url) method.</p>
-<p>+ PHP let's you control how you handle robots.txt directives easily by including scripts provided by <a href="http://robotstxt.org" target="_blank">robotstxt.org</a></p>
+<p>+ PHP let's you control how you handle robots.txt directives easily by including scripts provided by <a href="http://robotstxt.org" target="_blank">robotstxt.org</a> I wrote a <a href="http://einarstensson.herokuapp.com/" target="_blank">blog post</a> on this subject.</p>
 <p>+ It is easy to use AJAX requests to handle the php crawl on the front-end.</p>
 
 <h3>Disadvantages</h3>
