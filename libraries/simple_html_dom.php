@@ -178,7 +178,6 @@ class simple_html_dom_node
 	// Debugging function to dump a single dom node with a bunch of information about it.
 	function dump_node($echo=true)
 	{
-
 		$string = $this->tag;
 		if (count($this->attr)>0)
 		{
