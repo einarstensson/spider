@@ -1,72 +1,92 @@
-<?php
-  include 'models/vertice.php';
-  include 'services/scraper.php';
+<html>
+  <head>
+  <link rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+    integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+    crossorigin="anonymous">
+    <link rel="stylesheet" href="css/application.css">
+  </head>
+  <body>
+    <?php
+      include 'models/vertice.php';
+      include 'services/scraper.php';
 
-  echo "<h1>Welcome to the Site Map Spider</h1>";
+      echo "<h1>Welcome to the Site Map Spider</h1>";
 
-  $root_url = "http://wiprodigital.com";
-  $stack = array();
-  $history = array();
+      $root_url = "http://wiprodigital.com";
+      $stack = array();
+      $history = array();
 
-  $scraper = new Scraper( $root_url );
+      $scraper = new Scraper( $root_url );
 
-  $current_vertice = new Vertice( "/" );
-  $current_vertice->find_neighbors($scraper);
-  $stack[] = $current_vertice;
+      $current_vertice = new Vertice( "/" );
+      $current_vertice->find_neighbors($scraper);
+      $stack[] = $current_vertice;
 
-  $search = true;
-  while($search){
-    $history[] = $current_vertice->name;
-    echo "-----------------------------<br>";
-    echo "<h2>" . $current_vertice->name . "</h2>";
+      $search = true;
+      while($search){
 
-    $stack = update_stack($current_vertice->neighbors, $stack, $history);
+        echo "<div class='row'>";
+          echo "<h2>" . $current_vertice->name . "</h2>";
+          echo "<div class='col-md-3'>";
+            echo "<h2>Internal Neighbors</h2>";
+            foreach($current_vertice->internal_neighbors as $neighbor){
+              echo $neighbor->name;
+              echo "<br>";
+            }
+          echo "</div>";
+          echo "<div class='col-md-3'>";
+            echo "<h2>External Neighbors</h2>";
+          echo "</div>";
+          echo "<div class='col-md-3'>";
+            echo "<h2>Images</h2>";
+          echo "</div>";
+          echo "<div class='col-md-3'>";
+            echo "<h2>New Neighbors:</h3>";
+            foreach($current_vertice->internal_neighbors as $neighbor){
+              if(in_array($neighbor->name, $history) == false){
+                if(in_array($neighbor, $stack) == false){
+                  echo $neighbor->name;
+                  echo "<br>";
+                }
+              }
+            }
+          echo "</div>";
+        echo "</div>";
 
-    array_shift($stack);
 
-    if(count($stack) == 0){
-      $search = false;
-      echo "---------------------------<br>";
-      echo "History:<br>";
-      foreach($history as $name){
-        echo $name;
-        echo "<br>";
-      }
+        $history[] = $current_vertice->name;
 
-      echo "Done!";
-    }else{
+        $stack = update_stack($current_vertice->internal_neighbors, $stack, $history);
+        array_shift($stack);
 
-      $current_vertice = $stack[0];
-      if($current_vertice->visited == false){
-        $current_vertice->find_neighbors($scraper);
-        $current_vertice->visited = true;
-      }
-    }
-  }
+        if(count($stack) == 0){
+          $search = false;
+        }else{
 
-  function update_stack($new_neighbors, $stack, $history){
-    if($new_neighbors == NULL){
-      return $stack;
-    }
-    echo "<br>";
-    echo "<h3>History:</h3>";
-    foreach($history as $name){
-      echo $name;
-      echo "</br>";
-    }
-
-    echo "<br>";
-    echo "<h3>New Neighbors:</h3>";
-    foreach($new_neighbors as $neighbor){
-      if(in_array($neighbor->name, $history) == false){
-        if(in_array($neighbor, $stack) == false){
-          echo $neighbor->name;
-          echo "<br>";
-          $stack[] = $neighbor;
+          $current_vertice = $stack[0];
+          if($current_vertice->visited == false){
+            $current_vertice->find_neighbors($scraper);
+            $current_vertice->visited = true;
+          }
         }
       }
-    }
 
-    return $stack;
-  }
-?>
+      function update_stack($new_neighbors, $stack, $history){
+        if($new_neighbors == NULL){
+          return $stack;
+        }
+
+        foreach($new_neighbors as $neighbor){
+          if(in_array($neighbor->name, $history) == false){
+            if(in_array($neighbor, $stack) == false){
+              $stack[] = $neighbor;
+            }
+          }
+        }
+
+        return $stack;
+      }
+    ?>
+  </body>
+</html>
