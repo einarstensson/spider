@@ -26,7 +26,7 @@
         $neighbors = array();
 
         foreach($fetched_links as $link){
-          if($link && $link != $this->name){
+          if($link && $link != $this->name && $link != "404"){
             $neighbor = new Vertice( $link );
             $neighbors[] = $neighbor;
           }

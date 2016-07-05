@@ -3,9 +3,13 @@
 }
 
 h1{
-  font-size: 48px;
+  font-size: 65px;
 }
 
 h2{
   font-size: 36px;
+}
+
+.sub-text{
+  padding-left: 5%;
 }
